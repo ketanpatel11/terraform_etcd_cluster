@@ -1,0 +1,18 @@
+#cloud-config
+coreos:
+  users:
+    - name: etcd
+      sudo: yes
+      ssh_authorized_keys:
+        -
+  etcd2:
+    discovery: "https://discovery.etcd.io/27f216f0e178db59e127cbb76428c7e9"
+    advertise-client-urls: "http://$private_ipv4:2379"
+    initial-advertise-peer-urls: "http://$private_ipv4:2380"
+    listen-client-urls: "http://$private_ipv4:2379,http://127.0.0.1:2379"
+    listen-peer-urls: "http://$private_ipv4:2380"
+  update:
+    reboot-strategy: off
+  units:
+    - name: etcd2.service
+      command: start
